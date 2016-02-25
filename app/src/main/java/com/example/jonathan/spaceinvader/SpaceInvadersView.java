@@ -1,6 +1,7 @@
 package com.example.jonathan.spaceinvader;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -90,6 +91,12 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // The score
     private int score = 0;
 
+   // The HighScore
+    private int highScore = 0;
+
+    //SaveScore
+    private String saveScore = "HighScore";
+
     // Lives
     private int lives = 3;
 
@@ -100,6 +107,9 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // When did we last play a menacing sound
     private long lastMenaceTime = System.currentTimeMillis();
 
+    private static SharedPreferences prefs;
+
+
     // When the we initialize (call new()) on gameView
     // This special constructor method runs
     public SpaceInvadersView(Context context, int x, int y) {
@@ -108,6 +118,8 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         // SurfaceView class to set up our object.
         // How kind.
         super(context);
+
+
 
         // Make a globally available copy of the context so we can use it in another method
         this.context = context;
@@ -122,6 +134,11 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         // This SoundPool is deprecated but don't worry
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
 
+        prefs = context.getSharedPreferences("BLAH", context.MODE_PRIVATE);
+
+        String spackage = "BLAH";
+
+        highScore = prefs.getInt(saveScore, 0);
         try{
             // Create objects of the 2 required classes
             AssetManager assetManager = context.getAssets();
@@ -202,6 +219,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
 
+
             // Capture the current time in milliseconds in startFrameTime
             long startFrameTime = System.currentTimeMillis();
 
@@ -218,7 +236,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             // time animations and more.
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame >= 1) {
-                fps = 1000 / timeThisFrame;
+                fps = 10 / timeThisFrame;
             }
 
             // We will do something new here towards the end of the project
@@ -377,7 +395,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
             }
         }
-
+        prefs.edit().putInt(saveScore, highScore).commit();
       /*  // Has an alien bullet hit a shelter brick
         for(int i = 0; i < invadersBullets.length; i++){
             if(invadersBullets[i].getStatus()){
@@ -507,12 +525,16 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 0));
             paint.setTextSize(40);
-            canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
+            canvas.drawText("Score: " + score + "   Lives: " + lives, 10, 50, paint);
+            canvas.drawText("HighScore: " + highScore, 10,100,paint);
+           // canvas.drawText()
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
+
+
 
     // If SpaceInvadersActivity is paused/stopped
     // shutdown our thread.
