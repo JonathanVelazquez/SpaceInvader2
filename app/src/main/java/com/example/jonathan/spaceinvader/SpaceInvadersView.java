@@ -91,12 +91,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // The score
     private int score = 0;
 
-   // The HighScore
+    //Holds the high score
     private int highScore = 0;
 
-    //SaveScore
+    //Saves the high score as a string
     private String saveScore = "HighScore";
 
+    //Used SharedPreferences to save the high score
+    private static SharedPreferences prefs;
     // Lives
     private int lives = 3;
 
@@ -107,9 +109,6 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // When did we last play a menacing sound
     private long lastMenaceTime = System.currentTimeMillis();
 
-    private static SharedPreferences prefs;
-
-
     // When the we initialize (call new()) on gameView
     // This special constructor method runs
     public SpaceInvadersView(Context context, int x, int y) {
@@ -119,11 +118,13 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         // How kind.
         super(context);
 
-
-
         // Make a globally available copy of the context so we can use it in another method
         this.context = context;
 
+        prefs = context.getSharedPreferences("HighScore", context.MODE_PRIVATE);
+        String spackage = "HighScore";
+
+        highScore = prefs.getInt(saveScore,0);
         // Initialize ourHolder and paint objects
         ourHolder = getHolder();
         paint = new Paint();
@@ -134,11 +135,6 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         // This SoundPool is deprecated but don't worry
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
 
-        prefs = context.getSharedPreferences("BLAH", context.MODE_PRIVATE);
-
-        String spackage = "BLAH";
-
-        highScore = prefs.getInt(saveScore, 0);
         try{
             // Create objects of the 2 required classes
             AssetManager assetManager = context.getAssets();
@@ -183,6 +179,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
 
         // Prepare the players bullet
         bullet = new Bullet(screenY);
+        prefs.edit().putInt(saveScore, highScore).commit();
 
         // Initialize the invadersBullets array
         for(int i = 0; i < invadersBullets.length; i++){
@@ -219,7 +216,6 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
 
-
             // Capture the current time in milliseconds in startFrameTime
             long startFrameTime = System.currentTimeMillis();
 
@@ -236,7 +232,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             // time animations and more.
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame >= 1) {
-                fps = 10 / timeThisFrame;
+                fps = 1000 / timeThisFrame;
             }
 
             // We will do something new here towards the end of the project
@@ -384,8 +380,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                         bullet.setInactive();
                         score = score + 10;
 
+                        if( score>= highScore ){
+
+
+                            highScore = score;
+                        }
                         // Has the player won
                         if(score == numInvaders * 10){
+
                             paused = true;
                             score = 0;
                             lives = 3;
@@ -395,7 +397,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
             }
         }
-        prefs.edit().putInt(saveScore, highScore).commit();
+
       /*  // Has an alien bullet hit a shelter brick
         for(int i = 0; i < invadersBullets.length; i++){
             if(invadersBullets[i].getStatus()){
@@ -526,15 +528,12 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             paint.setColor(Color.argb(255,  249, 129, 0));
             paint.setTextSize(40);
             canvas.drawText("Score: " + score + "   Lives: " + lives, 10, 50, paint);
-            canvas.drawText("HighScore: " + highScore, 10,100,paint);
-           // canvas.drawText()
 
+            canvas.drawText("HighScore: " + highScore,10,100,paint);
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
-
-
 
     // If SpaceInvadersActivity is paused/stopped
     // shutdown our thread.
