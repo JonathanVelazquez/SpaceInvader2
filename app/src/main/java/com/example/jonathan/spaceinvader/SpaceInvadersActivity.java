@@ -1,14 +1,18 @@
 package com.example.jonathan.spaceinvader;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Display;
 
 // SpaceInvadersActivity is the entry point to the game.
 // It will handle the lifecycle of the game by calling
 // methods of spaceInvadersView when prompted to so by the OS.
-public class SpaceInvadersActivity extends Activity {
+public class SpaceInvadersActivity extends FragmentActivity {
+
+
 
     // spaceInvadersView will be the view of the game
     // It will also hold the logic of the game

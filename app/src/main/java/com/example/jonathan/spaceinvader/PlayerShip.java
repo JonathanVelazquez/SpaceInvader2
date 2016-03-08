@@ -41,7 +41,7 @@ public class PlayerShip {
         // Initialize a blank RectF
         rect = new RectF();
 
-        length = screenX/10;
+        length = screenX/5;
         height = screenY/10;
 
         // Start ship in roughly the screen centre
@@ -58,7 +58,7 @@ public class PlayerShip {
                 false);
 
         // How fast is the spaceship in pixels per second
-        shipSpeed = 350;
+        shipSpeed = 50;
     }
     public RectF getRect(){
         return rect;

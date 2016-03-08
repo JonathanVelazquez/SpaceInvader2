@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/Jonathan/Documents/MathGame/app/build/intermediates/res/merged/debug/layout/activity_splash.xml",
+        "source": "/Users/Jonathan/Documents/MathGame/app/src/main/res/layout/activity_splash.xml"
+    },
+    {
         "merged": "/Users/Jonathan/Documents/MathGame/app/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
         "source": "/Users/Jonathan/Documents/MathGame/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view_list_item.xml"
     },

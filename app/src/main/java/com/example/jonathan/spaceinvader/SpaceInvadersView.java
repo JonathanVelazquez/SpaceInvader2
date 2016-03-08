@@ -12,16 +12,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.media.Image;
-
-
-
-
 
 import java.io.IOException;
 
@@ -231,9 +227,9 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             // We can then use the result to
             // time animations and more.
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
-            if (timeThisFrame >= 1) {
-                fps = 1000 / timeThisFrame;
-            }
+            //if (timeThisFrame >= 1) {
+                fps = 1 ;
+
 
             // We will do something new here towards the end of the project
             // Play a sound based on the menace level
@@ -398,37 +394,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
         }
 
-      /*  // Has an alien bullet hit a shelter brick
-        for(int i = 0; i < invadersBullets.length; i++){
-            if(invadersBullets[i].getStatus()){
-                for(int j = 0; j < numBricks; j++){
-                 //   if(bricks[j].getVisibility()){
-                        if(RectF.intersects(invadersBullets[i].getRect(), bricks[j].getRect())){
-                            // A collision has occurred
-                            invadersBullets[i].setInactive();
-                          //  bricks[j].setInvisible();
-                            soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
-                        }
-                    }
-                }
-            }
 
-        }
-        */
-
-        // Has a player bullet hit a shelter brick
-       /* if(bullet.getStatus()){
-            for(int i = 0; i < numBricks; i++){
-               // if(bricks[i].getVisibility()){
-                //    if(RectF.intersects(bullet.getRect(), bricks[i].getRect())){
-                        // A collision has occurred
-                        bullet.setInactive();
-                      //  bricks[i].setInvisible();
-                        soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
-                    }
-                }
-            }
-        }*/
 
         // Has an invader bullet hit the player ship
         for(int i = 0; i < invadersBullets.length; i++){
